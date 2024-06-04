@@ -168,4 +168,27 @@ public class AddressBookTest {
 
         assertEquals("Contact not found", exception.getMessage());
     };
+
+    @Test
+    public void searchByEmailReturnsContact() throws Exception {
+        Contact contact1 = new Contact("John Smith", 12345678910L, "jsmith@gmail.com");
+        addressBook.addContact(contact1);
+
+        Contact expectedOutput = contact1;
+        Contact actualOutput = addressBook.searchByEmail("jsmith@gmail.com");
+
+        assertEquals(expectedOutput, actualOutput);
+    };
+
+    @Test
+    public void searchByEmailthrowsException() throws Exception {
+        Contact contact1 = new Contact("John Smith", 12345678910L, "jsmith@gmail.com");
+        addressBook.addContact(contact1);
+
+        Exception exception = assertThrows(Exception.class, () -> {
+            addressBook.searchByEmail("j@gmail.com");
+        });
+
+        assertEquals("Contact not found", exception.getMessage());
+    }
 }
