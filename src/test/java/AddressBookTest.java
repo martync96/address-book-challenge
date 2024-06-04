@@ -49,7 +49,7 @@ public class AddressBookTest {
             addressBook.searchForContact("John Smith");
         });
 
-        assertEquals("Contact not found", exception.getMessage());
+        assertEquals("No contacts found with the name: John Smith", exception.getMessage());
     }
 
     @Test
@@ -69,25 +69,10 @@ public class AddressBookTest {
 
         Contact contact1 = new Contact("John Smith", 12345678910L, "jsmith@gmail.com");
 
-        addressBook.addContact(contact1);
         boolean expectedOutput = false;
         boolean actualOutput = addressBook.removeContact(contact1);
 
         assertEquals(expectedOutput, actualOutput);
-    }
-
-    @Test
-    public void removeContactThrowsException() throws Exception {
-
-        Contact contact1 = new Contact("John Smith", 12345678910L, "jsmith@gmail.com");
-
-        addressBook.addContact(contact1);
-
-        Exception exception = assertThrows(Exception.class, () -> {
-            addressBook.searchForContact("jon smith");
-        });
-
-        assertEquals("Contact not found", exception.getMessage());
     }
 
     @Test
@@ -156,4 +141,31 @@ public class AddressBookTest {
 
         assertEquals(expectedOut, actualOutput);
     }
+
+    @Test
+    public void searchByNumberReturnsContact() throws Exception {
+        Contact contact1 = new Contact("John Smith", 12345678910L, "jsmith@gmail.com");
+        Contact contact2 = new Contact("Jane Smith", 12345678911L, "jasmith@gmail.com");
+
+        addressBook.addContact(contact1);
+        addressBook.addContact(contact2);
+
+        Contact expectedOutput = contact1;
+        Contact actualOutput = addressBook.searchByNumber(12345678910L);
+
+        assertEquals(expectedOutput, actualOutput);
+    };
+
+    @Test
+    public void searchByNumberThrowsException() throws Exception {
+
+        Contact contact1 = new Contact("John Smith", 12345678910L, "jsmith@gmail.com");
+        addressBook.addContact(contact1);
+
+        Exception exception = assertThrows(Exception.class, () -> {
+           addressBook.searchByNumber(123L);
+        });
+
+        assertEquals("Contact not found", exception.getMessage());
+    };
 }

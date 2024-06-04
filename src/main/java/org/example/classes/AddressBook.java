@@ -59,9 +59,15 @@ public class AddressBook {
 //    }
 
     public List<Contact> searchForContact(String name) throws Exception {
-        return contactList.stream()
+        List<Contact> foundContacts = contactList.stream()
                 .filter(contact -> Objects.equals(contact.getName(), name))
                 .collect(Collectors.toList());
+
+        if (foundContacts.isEmpty()) {
+            throw new Exception("No contacts found with the name: " + name);
+        }
+
+        return foundContacts;
     }
 
     public boolean checkForDuplicatePhoneNumber(long number) {
@@ -83,5 +89,12 @@ public class AddressBook {
                 })
                 .collect(Collectors.toList());
     }
+
+    public Contact searchByNumber(long number) throws Exception{
+        return contactList.stream().filter(contact -> Objects.equals(contact.getPhoneNumber(), number))
+                .findFirst()
+                .orElseThrow(() -> new Exception("Contact not found"));
+    }
+
 }
 
