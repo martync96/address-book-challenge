@@ -96,5 +96,10 @@ public class AddressBook {
                 .orElseThrow(() -> new Exception("Contact not found"));
     }
 
+    public Contact searchByEmail(String email) throws Exception {
+        return contactList.stream().filter(contact -> Objects.equals(contact.getEmail(), email))
+                .findFirst()
+                .orElseThrow(() -> new Exception("Contact not found"));
+    };
 }
 
